@@ -1,5 +1,6 @@
 package br.com.ero.ecommerce.service;
 
+import br.com.ero.ecommerce.exception.ResourceNotFoundException;
 import br.com.ero.ecommerce.model.User;
 import br.com.ero.ecommerce.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,9 @@ public class UserService {
     user.setRole(User.Role.USER);
 
     return userRepository.save(user);
+  }
+
+  public User getUserByEmail(String email) {
+    return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
   }
 }
