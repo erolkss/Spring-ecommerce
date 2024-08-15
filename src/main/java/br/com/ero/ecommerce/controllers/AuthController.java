@@ -1,8 +1,10 @@
 package br.com.ero.ecommerce.controllers;
 
 import br.com.ero.ecommerce.dto.LoginRequest;
+import br.com.ero.ecommerce.model.User;
 import br.com.ero.ecommerce.service.JwtService;
 import br.com.ero.ecommerce.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,5 +33,10 @@ public class AuthController {
     final String jwt = jwtService.generateToken(userDetails);
 
     return ResponseEntity.ok(jwt);
+  }
+
+  @PostMapping("/register")
+  public ResponseEntity<User> register(@RequestBody @Valid User user) {
+    return ResponseEntity.ok(userService.registerUser(user));
   }
 }

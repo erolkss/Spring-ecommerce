@@ -18,7 +18,7 @@ public class UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
 
-  private User registerUser(User user) {
+  public User registerUser(User user) {
     Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
 
     if (optionalUser.isPresent()) {
