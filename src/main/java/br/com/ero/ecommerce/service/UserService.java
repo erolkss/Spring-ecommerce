@@ -1,6 +1,6 @@
 package br.com.ero.ecommerce.service;
 
-import br.com.ero.ecommerce.exception.ChangePasswordRequest;
+import br.com.ero.ecommerce.dto.ChangePasswordRequest;
 import br.com.ero.ecommerce.exception.ResourceNotFoundException;
 import br.com.ero.ecommerce.model.User;
 import br.com.ero.ecommerce.repositories.UserRepository;

@@ -1,4 +1,4 @@
-package br.com.ero.ecommerce.exception;
+package br.com.ero.ecommerce.dto;
 
 import lombok.Data;
 
