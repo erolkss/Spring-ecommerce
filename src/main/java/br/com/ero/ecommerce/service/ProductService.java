@@ -63,6 +63,13 @@ public class ProductService {
   }
 
 
+  public ProductDTO getProduct(Long id) {
+    Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+    return productMapper.toDTO(product);
+  }
+
+
   private String saveImage(MultipartFile image) throws IOException {
     String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
     Path path = Paths.get(UPLOAD_DIR + fileName);
@@ -71,4 +78,6 @@ public class ProductService {
 
     return fileName;
   }
+
+
 }
