@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-  @Query("SELECT br.com.ero.ecommerce.dto.ProductListDTO(p.id, p.name, p.description, p.price, p.image) FROM Product p")
+  @Query("SELECT new br.com.ero.ecommerce.dto.ProductListDTO(p.id, p.name, p.description, p.price, p.quantity, p.image) FROM Product p")
   List<ProductListDTO> findAllWithoutComments();
 
 }
