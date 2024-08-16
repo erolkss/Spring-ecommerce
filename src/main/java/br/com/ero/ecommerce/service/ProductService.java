@@ -1,6 +1,7 @@
 package br.com.ero.ecommerce.service;
 
 import br.com.ero.ecommerce.dto.ProductDTO;
+import br.com.ero.ecommerce.exception.ResourceNotFoundException;
 import br.com.ero.ecommerce.mapper.ProductMapper;
 import br.com.ero.ecommerce.model.Product;
 import br.com.ero.ecommerce.repositories.ProductRepository;
@@ -35,6 +36,22 @@ public class ProductService {
     Product savedProduct = productRepository.save(product);
 
     return productMapper.toDTO(savedProduct);
+  }
+
+  @Transactional
+  public ProductDTO updateProduct(Long id, ProductDTO productDTO, MultipartFile image) throws IOException {
+    Product existingProduct = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+    existingProduct.setName(productDTO.getName());
+    existingProduct.setDescription(productDTO.getDescription());
+    existingProduct.setPrice(productDTO.getPrice());
+    existingProduct.setQuantity(productDTO.getQuantity());
+    if (image != null && !image.isEmpty()) {
+      String fileName = saveImage(image);
+      existingProduct.setImage("/images/" + fileName);
+    }
+    Product updateProduct = productRepository.save(existingProduct);
+
+    return productMapper.toDTO(updateProduct);
   }
 
 
