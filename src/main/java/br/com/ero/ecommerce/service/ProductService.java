@@ -54,6 +54,14 @@ public class ProductService {
     return productMapper.toDTO(updateProduct);
   }
 
+  @Transactional
+  public void deleteProduct(Long id) {
+    if (!productRepository.existsById(id)) {
+      throw new ResourceNotFoundException("Product Not Found");
+    }
+    productRepository.deleteById(id);
+  }
+
 
   private String saveImage(MultipartFile image) throws IOException {
     String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
