@@ -1,6 +1,7 @@
 package br.com.ero.ecommerce.service;
 
 import br.com.ero.ecommerce.dto.ProductDTO;
+import br.com.ero.ecommerce.dto.ProductListDTO;
 import br.com.ero.ecommerce.exception.ResourceNotFoundException;
 import br.com.ero.ecommerce.mapper.ProductMapper;
 import br.com.ero.ecommerce.model.Product;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -67,6 +69,10 @@ public class ProductService {
     Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
     return productMapper.toDTO(product);
+  }
+
+  public List<ProductListDTO> getAllProduct() {
+    return productRepository.findAllWithoutComments();
   }
 
 
