@@ -11,6 +11,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/comments")
 @RequiredArgsConstructor
@@ -27,5 +29,10 @@ public class CommentController {
     Long userId = ((User) userDetails).getId();
 
     return ResponseEntity.ok(commentService.addComment(productId, userId, commentDTO));
+  }
+
+  @GetMapping("/product/{productId}")
+  public ResponseEntity<List<CommentDTO>> getCommentsByProduct(@PathVariable Long productId) {
+    return ResponseEntity.ok(commentService.getCommentsByProduct(productId));
   }
 }
