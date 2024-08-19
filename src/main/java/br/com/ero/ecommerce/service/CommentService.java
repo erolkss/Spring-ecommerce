@@ -12,6 +12,9 @@ import br.com.ero.ecommerce.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -33,5 +36,11 @@ public class CommentService {
 
     return commentMapper.toDTO(comment);
 
+  }
+
+  public List<CommentDTO> getCommentsByProduct(Long productId) {
+    List<Comment> comments = commentRepository.findByProductId(productId);
+
+    return comments.stream().map(commentMapper::toDTO).collect(Collectors.toList());
   }
 }
