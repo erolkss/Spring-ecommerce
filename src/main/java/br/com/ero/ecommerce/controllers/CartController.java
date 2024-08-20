@@ -32,7 +32,15 @@ public class CartController {
   public ResponseEntity<CartDTO> getCart(@AuthenticationPrincipal UserDetails userDetails) {
     Long userId = ((User) userDetails).getId();
 
-    return ResponseEntity.ok(cartService.getCart(userId))o;
+    return ResponseEntity.ok(cartService.getCart(userId));
 
+  }
+
+  @DeleteMapping
+  @PreAuthorize("isAuthenticated()")
+  public ResponseEntity<Void> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
+    Long userId = ((User) userDetails).getId();
+    cartService.clearCart(userId);
+    return ResponseEntity.noContent().build();
   }
 }
