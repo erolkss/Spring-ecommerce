@@ -50,4 +50,9 @@ public class CartService {
     return cartMapper.toDTO(savedCart);
   }
 
+  public CartDTO getCart(Long userId) {
+    Cart cart = cartRepository.findByUserId(userId).orElseThrow(() -> new ResourceNotFoundException("Cart Not Found"));
+
+    return cartMapper.toDTO(cart);
+  }
 }
