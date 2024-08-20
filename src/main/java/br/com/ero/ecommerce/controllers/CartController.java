@@ -8,10 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -28,5 +25,14 @@ public class CartController {
     Long userId = ((User) userDetails).getId();
 
     return ResponseEntity.ok(cartService.addToCart(userId, productId, quantity));
+  }
+
+  @GetMapping
+  @PreAuthorize("isAuthenticated()")
+  public ResponseEntity<CartDTO> getCart(@AuthenticationPrincipal UserDetails userDetails) {
+    Long userId = ((User) userDetails).getId();
+
+    return ResponseEntity.ok(cartService.getCart(userId))o;
+
   }
 }
