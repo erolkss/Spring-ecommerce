@@ -55,4 +55,11 @@ public class CartService {
 
     return cartMapper.toDTO(cart);
   }
+
+  public void clearCart(Long userId) {
+    Cart cart = cartRepository.findByUserId(userId).orElseThrow(() -> new ResourceNotFoundException("Cart Not Found"));
+
+    cart.getItems().clear();
+    cartRepository.save(cart);
+  }
 }
