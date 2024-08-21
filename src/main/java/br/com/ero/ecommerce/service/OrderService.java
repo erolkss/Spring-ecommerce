@@ -88,4 +88,8 @@ public class OrderService {
 
     }).collect(Collectors.toList());
   }
+
+  public List<OrderDTO> getAllOrders() {
+    return orderMapper.toDTOs(orderRepository.findAll());
+  }
 }
