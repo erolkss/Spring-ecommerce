@@ -96,4 +96,13 @@ public class OrderService {
   public List<OrderDTO> getUserOrders(Long userId) {
     return orderMapper.toDTOs(orderRepository.findByUserId(userId));
   }
+
+  public OrderDTO updateOrderStatus(Long orderId, Order.OrderStatus status) {
+    Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new ResourceNotFoundException("Order Not Found"));
+    order.setStatus(status);
+    Order updateOrder = orderRepository.save(order);
+
+    return orderMapper.toDTO(updateOrder);
+  }
 }
