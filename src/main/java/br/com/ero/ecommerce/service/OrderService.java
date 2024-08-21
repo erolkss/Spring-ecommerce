@@ -92,4 +92,8 @@ public class OrderService {
   public List<OrderDTO> getAllOrders() {
     return orderMapper.toDTOs(orderRepository.findAll());
   }
+
+  public List<OrderDTO> getUserOrders(Long userId) {
+    return orderMapper.toDTOs(orderRepository.findByUserId(userId));
+  }
 }
