@@ -37,4 +37,13 @@ public class OrderController {
 
     return ResponseEntity.ok(orders);
   }
+
+  @GetMapping("/user")
+  @PreAuthorize("isAuthenticated()")
+  public ResponseEntity<List<OrderDTO>> geUserOrders(@AuthenticationPrincipal UserDetails userDetails) {
+    Long userId = ((User) userDetails).getId();
+    List<OrderDTO> orders = orderService.getUserOrders(userId);
+
+    return ResponseEntity.ok(orders);
+  }
 }
