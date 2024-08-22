@@ -1,6 +1,7 @@
 package br.com.ero.ecommerce.controllers;
 
 import br.com.ero.ecommerce.dto.OrderDTO;
+import br.com.ero.ecommerce.model.Order;
 import br.com.ero.ecommerce.model.User;
 import br.com.ero.ecommerce.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,14 @@ public class OrderController {
     List<OrderDTO> orders = orderService.getUserOrders(userId);
 
     return ResponseEntity.ok(orders);
+  }
+
+  @PutMapping("/{orderId}/status")
+  @PreAuthorize("hasRole('ADMIN')")
+  public ResponseEntity<OrderDTO> updateOrdersStatus(@PathVariable Long orderId,
+                                                     @RequestParam Order.OrderStatus status) {
+    OrderDTO updateOrder = orderService.updateOrderStatus(orderId, status);
+
+    return ResponseEntity.ok(updateOrder);
   }
 }
