@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final EmailService emailService;
 
   public User registerUser(User user) {
     Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
@@ -27,6 +29,10 @@ public class UserService {
 
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setRole(User.Role.USER);
+    user.setConfirmationCode(generateConfirmationCode());
+    user.setEmailConfirmation(false);
+
+    emailService.sendConfirmationCode(user);
 
     return userRepository.save(user);
   }
@@ -45,5 +51,22 @@ public class UserService {
     user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
     userRepository.save(user);
+  }
+
+  public void confirmEmail(String email, String confirmationCode) {
+    User user = getUserByEmail(email);
+    if (user.getConfirmationCode().equals(confirmationCode)) {
+      user.setEmailConfirmation(true);
+      user.setConfirmationCode(null);
+      userRepository.save(user);
+    } else {
+      throw new BadCredentialsException("Invalid Confirmation Code");
+    }
+  }
+
+  private String generateConfirmationCode() {
+    Random random = new Random();
+    int code = 100000 + random.nextInt(900000);
+    return String.valueOf(code);
   }
 }
